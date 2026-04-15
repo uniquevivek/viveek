@@ -1,0 +1,10 @@
+# files folder
+test_folder/
+
+*.zip
+
+# virtual environment
+selfenv/
+
+# Django
+db.sqlite3

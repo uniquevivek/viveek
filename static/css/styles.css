@@ -1,0 +1,32 @@
+/* loader css */
+.loader-screen {
+  position: fixed;
+  inset: 0;
+  background: #0b0b0b;
+}
+
+/* Top-left text */
+.top-text {
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  color: #ffffff;
+  font-size: 30px;
+  opacity: 0.9;
+}
+
+/* Bottom-right percentage */
+.progress {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  color: #ffffff;
+  font-size: 90px;
+  font-weight: 300;
+  letter-spacing: -2px;
+}
+
+body.loading {
+  overflow: hidden;
+}
+
