@@ -8,3 +8,5 @@ selfenv/
 
 # Django
 db.sqlite3
+
+*.env

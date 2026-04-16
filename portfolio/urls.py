@@ -17,10 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from dynamic.views import project_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index,name='home'),
     path('contact/', views.contact, name='contact'),
     path('certificates/', views.certificates, name='certificates'),
+    path('api/projects/', project_list),
 ]

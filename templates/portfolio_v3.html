@@ -924,85 +924,9 @@
                 <div class="section-label">// MY WORK</div>
                 <h2>Featured Projects</h2>
             </div>
-            <div class="projects-grid">
-                <div class="project-card reveal">
-                    <div class="project-header">
-                        <div class="project-number">PROJECT_01</div>
-                        <h3 class="project-title">Electrocus Company Website</h3>
-                        <div class="project-role">Backend Developer & Frontend Integrator</div>
-                        <p class="project-description">
-                            Engineered a responsive company website with 6+ functional sections including automation,
-                            labs, software panels, and contact modules. Developed 15+ data-driven pages.
-                        </p>
-                    </div>
-                    <div class="project-body">
-                        <div class="tech-stack">
-                            <span class="tech-badge">Django</span>
-                            <span class="tech-badge">Bootstrap 5</span>
-                            <span class="tech-badge">HTML</span>
-                            <span class="tech-badge">CSS</span>
-                            <span class="tech-badge">JavaScript</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card reveal">
-                    <div class="project-header">
-                        <div class="project-number">PROJECT_02</div>
-                        <h3 class="project-title">RGS Pharmacy Student Management</h3>
-                        <div class="project-role">Full-Stack Developer</div>
-                        <p class="project-description">
-                            Architected a comprehensive student management system handling records of 300+ students and
-                            10+ administrative users with 8+ modules.
-                        </p>
-                    </div>
-                    <div class="project-body">
-                        <div class="tech-stack">
-                            <span class="tech-badge">PHP</span>
-                            <span class="tech-badge">MySQL</span>
-                            <span class="tech-badge">Bootstrap</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card reveal">
-                    <div class="project-header">
-                        <div class="project-number">PROJECT_03</div>
-                        <h3 class="project-title">Certification Verification System</h3>
-                        <div class="project-role">Backend Architect</div>
-                        <p class="project-description">
-                            Architected and deployed a secure certification verification platform validating 1,000+
-                            certificates using unique verification IDs.
-                        </p>
-                    </div>
-                    <div class="project-body">
-                        <div class="tech-stack">
-                            <span class="tech-badge">Django</span>
-                            <span class="tech-badge">MySQL</span>
-                            <span class="tech-badge">Tailwind CSS</span>
-                            <span class="tech-badge">JavaScript</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card reveal">
-                    <div class="project-header">
-                        <div class="project-number">PROJECT_04</div>
-                        <h3 class="project-title">Fingerprint Voting Machine</h3>
-                        <div class="project-role">Frontend Developer</div>
-                        <p class="project-description">
-                            Crafted an intuitive voting interface improving user interaction accuracy during biometric
-                            verification workflows.
-                        </p>
-                    </div>
-                    <div class="project-body">
-                        <div class="tech-stack">
-                            <span class="tech-badge">HTML</span>
-                            <span class="tech-badge">CSS</span>
-                            <span class="tech-badge">JavaScript</span>
-                            <span class="tech-badge">Django</span>
-                        </div>
-                    </div>
+            <div class="projects-grid" id="projectsContainer">
+                <div style="text-align:center; padding:40px;">
+                    <span>Loading projects...</span>
                 </div>
             </div>
         </div>
@@ -1302,6 +1226,66 @@
                 themeToggle.textContent = '🌙 Dark Mode';
             }
         });
+    </script>
+    <script>
+        async function loadProjects() {
+            const container = document.getElementById('projectsContainer');
+
+            try {
+                const res = await fetch('/api/projects/');
+                const projects = await res.json();
+
+                container.innerHTML = '';
+
+                projects.forEach((project, index) => {
+
+                    // Tech stack badges
+                    let techHTML = '';
+                    project.tech_stack.forEach(tech => {
+                        techHTML += `<span class="tech-badge">${tech}</span>`;
+                    });
+
+                    // Conditional buttons
+                    let buttonsHTML = '';
+
+                    if (project.github_link) {
+                        buttonsHTML += `<a href="${project.github_link}" target="_blank" class="tech-badge">GitHub</a>`;
+                    }
+
+                    if (project.live_link) {
+                        buttonsHTML += `<a href="${project.live_link}" target="_blank" class="tech-badge">Live</a>`;
+                    }
+
+                    const card = `
+                <div class="project-card reveal">
+                    <div class="project-header">
+                        <div class="project-number">PROJECT_0${index + 1}</div>
+                        <h3 class="project-title">${project.title}</h3>
+                        <div class="project-role">${project.role || ''}</div>
+                        <p class="project-description">${project.description}</p>
+                    </div>
+
+                    <div class="project-body">
+                        <div class="tech-stack">
+                            ${techHTML}
+                        </div>
+
+                        <div class="tech-stack" style="margin-top:15px;">
+                            ${buttonsHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                    container.innerHTML += card;
+                });
+
+            } catch (error) {
+                container.innerHTML = '<p>Failed to load projects</p>';
+            }
+        }
+
+        loadProjects();
     </script>
 </body>
 
